@@ -14,6 +14,8 @@ public interface BaseDao {
 
     public Map<Object,Object> selectOneById(@Param("tableName")String tableName, @Param("id") Integer id);
 
+    public Map<Object,Object> selectOneByStringId(@Param("tableName")String tableName, @Param("id") String id);
+
     public List<Map<Object,Object>> selectAll(@Param("tableName") String tableName);
 
     void addForNotMatch(@Param("tableName") String tableName, @Param("fieldNames") Object[] fieldNames, @Param("fieldValues") Object[] fieldValues);

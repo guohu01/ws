@@ -17,6 +17,9 @@ public class MapToEntityTool {
     private static Map<String,EntityCacheItem> convertItemCache = new HashMap<>();
 
     public static <T> T map2Entity(Map<Object,Object> map,Class<?> entityClass){
+        if (map==null){
+            return null;
+        }
         //尝试从缓存中获取entityCacheItem对象
         EntityCacheItem eci = convertItemCache.get(entityClass.getName());
         if (eci==null){

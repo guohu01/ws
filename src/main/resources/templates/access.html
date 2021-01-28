@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访客问卷</title>
+</head>
+<link type="text/css" rel="stylesheet" href="${ctx}/components/fileinput/css/fileinput.css" />
+<script type="text/javascript" src="${ctx}/components/fileinput/js/fileinput.js"></script>
+<script type="text/javascript" src="${ctx}/components/fileinput/js/fileinput_locale_zh.js"></script>
+<body>
+<h2>请填写访客基本信息</h2>
+<form action="/accessPageRe" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>称呼:</td>
+            <td><input type="text" name="username" class="form-control" placeholder="请输入称呼"/></td>
+        </tr>
+        <tr>
+            <td>电话:</td>
+            <td><input type="number" name="phone" class="form-control" placeholder="请输入联系电话"/></td>
+        </tr>
+        <tr>
+            <td>事项:</td>
+            <td><textarea name="matter" clos="20" rows="5" placeholder="请将到访说明填到此区域"></textarea></td>
+        </tr>
+        <tr>
+            <td>请上传人脸真面照:</td>
+            <td>
+                <div class="box">
+                    <input type="file">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            
+            <td colspan="2" style="text-align: right">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    $(function(){
+        var imgFile = new ImgUploadeFiles('.box', function(e) {
+            this.init({
+                MAX: 3, //限制个数
+                MH: 5800, //像素限制高度
+                MW: 5900, //像素限制宽度
+                callback: function(arr) {
+                    console.log(arr)
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

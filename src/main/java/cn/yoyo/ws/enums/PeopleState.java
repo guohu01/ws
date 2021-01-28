@@ -1,7 +1,7 @@
 package cn.yoyo.ws.enums;
 
 public enum PeopleState {
-    AllOW(1,"正常状态"),FORBID(0,"禁用状态");
+    AllOW(1,"自己人"),FORBID(0,"陌生人");
 
     private int code;
     private String msg;

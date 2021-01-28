@@ -1,5 +1,6 @@
-package cn.yoyo.ws.model;
+package cn.yoyo.ws.model.user;
 
+import cn.yoyo.ws.model.MessageValidCycle;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageData {
+public class UserDetails {
     private String user_id;
     private String name;
     private String phone;
@@ -21,5 +22,6 @@ public class MessageData {
     private String inf_photo;
     private String user_type;
     private List<MessageValidCycle> valid_cycle;
+    private String pass_rule_id;
 
 }

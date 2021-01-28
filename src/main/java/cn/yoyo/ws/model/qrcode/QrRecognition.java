@@ -1,16 +1,15 @@
-package cn.yoyo.ws.model;
+package cn.yoyo.ws.model.qrcode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextMessage {
+public class QrRecognition {
     private String sn;
-    private Boolean is_complete;
-    private List<MessageData> data;
+    private String qrcode_content;
+    private float temperature;
+    private String user_id;
 }

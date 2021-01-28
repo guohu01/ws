@@ -18,4 +18,6 @@ public interface BaseService<T> {
     public T selectOneById(Integer id);
 
     public List<T> selectAll();
+
+    public T selectOneByStringId(String uid);
 }

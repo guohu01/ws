@@ -1,45 +1,16 @@
 package cn.yoyo.ws.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@NoArgsConstructor                 //无参构造
+@AllArgsConstructor                //有参构造
+@Data
 public class Face {
     private String sn;
-    private String Count;
+    private String count;
     private List<FaceLogs> logs;
-
-    @Override
-    public String toString() {
-        return "Face{" +
-                "sn='" + sn + '\'' +
-                ", Count='" + Count + '\'' +
-                ", logs=" + logs +
-                '}';
-    }
-
-    public Face() {
-    }
-
-    public String getSn() {
-        return sn;
-    }
-
-    public void setSn(String sn) {
-        this.sn = sn;
-    }
-
-    public String getCount() {
-        return Count;
-    }
-
-    public void setCount(String count) {
-        Count = count;
-    }
-
-    public List<FaceLogs> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<FaceLogs> logs) {
-        this.logs = logs;
-    }
 }

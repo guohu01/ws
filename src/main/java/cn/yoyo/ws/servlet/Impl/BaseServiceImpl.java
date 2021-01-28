@@ -80,6 +80,13 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
+    public T selectOneByStringId(String uid) {
+        Map<Object, Object> rsMap = getBaseDao().selectOneByStringId(tableName, uid);
+        T t = MapToEntityTool.map2Entity(rsMap, clazz);
+        return t;
+    }
+
+    @Override
     public List<T> selectAll() {
         List<Map<Object, Object>> rsList = getBaseDao().selectAll(tableName);
         List<T> list = new ArrayList<>();

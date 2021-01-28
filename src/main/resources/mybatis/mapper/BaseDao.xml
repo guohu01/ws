@@ -35,6 +35,11 @@
     <select id="selectOneById" resultType="map">
         select * from ${tableName} where id=#{id}
     </select>
+
+    <select id="selectOneByStringId" resultType="map">
+        select * from ${tableName} where user_id=#{id}
+    </select>
+
     <select id="selectAll" resultType="map">
         select * from ${tableName}
     </select>

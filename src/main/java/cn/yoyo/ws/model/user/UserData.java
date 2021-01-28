@@ -1,14 +1,15 @@
-package cn.yoyo.ws.model;
+package cn.yoyo.ws.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageMsg {
-    private List<TextMessage> data;
+public class UserData {
+    private String cmd;
+    private int code;
+    private UserDetails details;
+
 }

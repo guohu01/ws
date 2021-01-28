@@ -1,12 +1,11 @@
 package cn.yoyo.ws.handle;
 
 import cn.yoyo.ws.model.FaceLogs;
-import cn.yoyo.ws.servlet.MessageHandler;
 import cn.yoyo.ws.tools.BASE64Util;
+import cn.yoyo.ws.tools.QrCreate;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -21,13 +20,16 @@ import java.util.UUID;
 @Repository
 public class SpringWebSocketHandler extends TextWebSocketHandler {
 
+/*    public static String ir_image;
+    public static String vl_image;*/
+
     /*
     * 存储用户id和其对应的session
     * */
     public static final Map<String, WebSocketSession> users = new HashMap<>();
 
-    @Autowired
-    private MessageHandler messageHandler;
+    /*@Autowired
+    private MessageHandler messageHandler;*/
 
     /*
     * 用户key值
@@ -41,12 +43,28 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) {
         System.out.println("成功建立websocket连接!");
         /*this.session = session;
-        System.out.println("成功建立websocket连接thid.session"+this.session);*/
-
-        /*String userId = (String) session.getAttributes().get(USER_ID);//取出在拦截器中存储的username
+        System.out.println("成功建立websocket连接thid.session"+this.session);
+        String userId = (String) session.getAttributes().get(USER_ID);//取出在拦截器中存储的username
         System.out.println("当前用户："+userId);*/
         users.put("admin", session);
         System.out.println("当前线上用户数量:" + users.size());
+        try {
+            QrCreate.generateQRCodeImage(QrCreate.create(),"C:\\Users\\Administrator\\Desktop\\MyQRCode.png");
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+        String msg = "{\n" +
+                "    \"cmd\":\"to_device\",\n" +
+                "    \"form\":\"client_id\",\n" +
+                "    \"to\":\"RLX-00112236\",\n" +
+                "    \"data\":{\n" +
+                "        \"cmd\":\"setVisitorApplyValue\",\n" +
+                "        \"url\":\"http://192.168.3.150:8081/qrcodeUrl?estate_id=1\",\n" +
+                "        \"photo\":\""+ BASE64Util.compressPicForScale("C:\\Users\\Administrator\\Desktop\\MyQRCode.png",null, 50) +"\"\n" +
+                "    }\n" +
+                "}";
+//        System.out.println(msg);
+        sendMessageToUser("admin",msg);
     }
 
     /**
@@ -67,7 +85,7 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         super.handleTextMessage(session, message);
-        System.out.println("收到消息：" + message);
+//        System.out.println("收到消息：" + message);
         if (message.getPayloadLength() > 0){
             receiveTest(session, message.getPayload());
         }
@@ -80,14 +98,18 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
 
     //接收消息后消息处理
     private void receiveTest(WebSocketSession session, String obj) throws IOException {
-        System.out.println(obj);
+        System.out.println("收到消息"+obj);
         String key = "";
+        String keyTo = "";
         try {
             JSONObject jsonObject = JSONObject.parseObject(obj);
-            System.out.println("jsonkey遍历"+jsonObject.keySet());
+//            System.out.println("jsonkey遍历"+jsonObject.keySet());
             for (String jsonkey : jsonObject.keySet()){
                 if (jsonkey=="cmd"){
                     key = jsonObject.getString("cmd");
+                }
+                if(jsonkey=="to"){
+                    keyTo = jsonObject.getString("to");
                 }
                 if (jsonkey=="logs"){
                     System.out.println("=============logs");
@@ -97,7 +119,7 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
                     JSONArray jsonArray = (JSONArray) jsonObject.get("logs");
                     System.out.println("logs:"+jsonArray);
                     String photo = (String) ((JSONObject) jsonArray.get(0)).get("photo");
-                    String photo2 = BASE64Util.decodeBase64ToImage(photo, "D:\\Download\\", UUID.randomUUID().toString() + ".jpg");
+                    String photo2 = BASE64Util.decodeBase64ToImage(photo, "D:\\Download\\vl\\", "vl_"+UUID.randomUUID().toString() + ".jpg");
                     ((JSONObject) jsonArray.get(0)).put("photo",photo2);  //修改json数据属性值
                     FaceLogs faceLogs = JSON.parseObject(jsonArray.get(0).toString(), FaceLogs.class);
                     System.out.println("========"+faceLogs);
@@ -105,6 +127,18 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
                 }
             }
             System.out.println(key);
+            /*switch (keyTo){
+                case "client_capture" : {
+                    //客户端返回抓拍数据
+                    JSONObject data = (JSONObject) jsonObject.get("data");
+                    if (!"".equals(data.getString("ir_face_template"))){
+                        ir_image = BASE64Util.decodeBase64ToImage(data.getString("ir_face_template"), "D:\\Download\\ir\\", "ir_" + UUID.randomUUID().toString() + ".jpg");
+                    }
+                    if (!"".equals(data.getString("vl_face_template"))){
+                        vl_image = BASE64Util.decodeBase64ToImage(data.getString("ir_face_template"), "D:\\Download\\vl\\", "vl_" + UUID.randomUUID().toString() + ".jpg");
+                    }
+                }
+            }*/
             switch (key){
                 //客户端声明
                 case "declare" :{
@@ -148,7 +182,7 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
     * String userId,
     * */
     public void sendMessageToUser(String userId, String message) {
-//        users.get(userId).sendMessage(new TextMessage(message));
+        System.out.println(message);
         for (String id : users.keySet()) {
             if (id.equals(userId)) {
                 try {

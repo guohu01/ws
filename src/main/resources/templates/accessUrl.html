@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>入口</title>
+</head>
+<body>
+<h2>请填写访客基本信息</h2>
+<form action="/visitorSubmit" method="post">
+    <table>
+        <tr>
+            <td>称呼:</td>
+            <td><input type="text" name="username" class="form-control" placeholder="请输入称呼"/></td>
+        </tr>
+        <tr>
+            <td>电话:</td>
+            <td><input type="number" name="phone" class="form-control" placeholder="请输入联系电话"/></td>
+        </tr>
+        <tr>
+            <td>事项:</td>
+            <td><textarea name="matter" clos="20" rows="5" placeholder="请将到访说明填到此区域"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                <input type="text" name="captcha" placeholder="验证码开门" style="width: 80px">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">提交</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

@@ -40,13 +40,6 @@ public class WebSocketController {
     /**
      * 指定发送
      */
-    /*@ResponseBody
-    @RequestMapping("/sendToUser")
-    public String send(@RequestParam(value = "username") String username, @RequestParam(value = "info") String info) {
-        springWebSocketHandler.sendMessageToUser(username, new TextMessage(info));
-        System.out.println("发送至：" + username);
-        return "success";
-    }*/
     @ResponseBody
     @RequestMapping("/sendToUser")
     public String send() {
@@ -65,13 +58,4 @@ public class WebSocketController {
         System.out.println("广播成功");
         return "success";
     }
-
-    /**
-     * 同步人员数据接口
-     */
-    @PostMapping(value = "/api/v1/uploadFaceInfo")
-    public String uploadFaceInfo(){
-        return "";
-    }
-
 }

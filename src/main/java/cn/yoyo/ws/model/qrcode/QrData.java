@@ -1,14 +1,13 @@
-package cn.yoyo.ws.model;
+package cn.yoyo.ws.model.qrcode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageMsg {
-    private List<TextMessage> data;
+public class QrData {
+    private String photo;
+    private String url;
 }
