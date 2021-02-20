@@ -57,10 +57,21 @@ public class MessageHandler {
                 "        \"voice_text\":\"自己人，好好工作加油\"\n" +
                 "    }\n" +
                 "}";
+        String recognize_voice = "{\n" +
+                "    \"cmd\":\"to_device\",\n" +
+                "    \"form\":\"识别成功语音\",\n" +
+                "    \"to\":\"RLX-00112236\",\n" +
+                "    \"data\":{\n" +
+                "        \"cmd\":\"getDeviceSettings\",\n" +
+                "        \"settings\":[\"recognize_voice\"]\n" +
+                "    }\n" +
+                "}";
         //开门
         springWebSocketHandler.sendMessageToUser("admin",msg);
+        //获取设备机识别成功的语音
+        springWebSocketHandler.sendMessageToUser("admin",recognize_voice);
         //修改语音提示
-        springWebSocketHandler.sendMessageToUser("admin",msgVoice);
+//        springWebSocketHandler.sendMessageToUser("admin",msgVoice);
         return "success";
     }
 

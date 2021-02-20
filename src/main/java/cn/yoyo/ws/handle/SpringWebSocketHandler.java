@@ -113,8 +113,6 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
                 }
                 if (jsonkey=="logs"){
                     System.out.println("=============logs");
-//                    messageHandler.faceUser(jsonObject,session);
-
                     //json转entity实体
                     JSONArray jsonArray = (JSONArray) jsonObject.get("logs");
                     System.out.println("logs:"+jsonArray);
@@ -123,22 +121,29 @@ public class SpringWebSocketHandler extends TextWebSocketHandler {
                     ((JSONObject) jsonArray.get(0)).put("photo",photo2);  //修改json数据属性值
                     FaceLogs faceLogs = JSON.parseObject(jsonArray.get(0).toString(), FaceLogs.class);
                     System.out.println("========"+faceLogs);
-
                 }
             }
             System.out.println(key);
-            /*switch (keyTo){
-                case "client_capture" : {
-                    //客户端返回抓拍数据
-                    JSONObject data = (JSONObject) jsonObject.get("data");
-                    if (!"".equals(data.getString("ir_face_template"))){
-                        ir_image = BASE64Util.decodeBase64ToImage(data.getString("ir_face_template"), "D:\\Download\\ir\\", "ir_" + UUID.randomUUID().toString() + ".jpg");
-                    }
-                    if (!"".equals(data.getString("vl_face_template"))){
-                        vl_image = BASE64Util.decodeBase64ToImage(data.getString("ir_face_template"), "D:\\Download\\vl\\", "vl_" + UUID.randomUUID().toString() + ".jpg");
-                    }
+            switch (keyTo){
+                case "识别成功语音" : {
+                    //获取设备识别成功语音提示
+                    String voice_text = ((JSONObject) ((JSONObject) ((JSONObject) jsonObject.get("data")).get("settings")).get("recognize_voice")).getString("voice_text");
+                    System.out.println("设备识别成功语音提示=============="+voice_text);
+                    String msgVoice = "{\n" +
+                            "    \"cmd\":\"to_device\",\n" +
+                            "    \"form\":\"client_id\",\n" +
+                            "    \"to\":\"RLX-00112236\",\n" +
+                            "    \"data\":{\n" +
+                            "        \"cmd\":\"setVoice\",\n" +
+                            "        \"type\":0,\n" +
+                            "        \"voice_code\":-1,\n" +
+                            "        \"voice_text\":\""+voice_text+"\"\n" +
+                            "    }\n" +
+                            "}";
+                    //修改当前语音为设备识别成功语音
+                    sendMessageToUser("admin",msgVoice);
                 }
-            }*/
+            }
             switch (key){
                 //客户端声明
                 case "declare" :{
